@@ -9,8 +9,10 @@ export default function ContactFooter() {
   const [status, setStatus] = useState('')
   const [sending, setSending] = useState(false)
   const [missing, setMissing] = useState('')
+  const [sent, setSent] = useState(false)
 
   function miss(form, field, message) {
+    setSent(false)
     setMissing(field)
     setStatus(message)
     requestAnimationFrame(() => form.elements[field]?.focus())
@@ -28,6 +30,7 @@ export default function ContactFooter() {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return miss(form, 'email', 'That email does not look right.')
     if (!details) return miss(form, 'details', 'Tell us a little about the occasion.')
     setMissing('')
+    setSent(false)
     setSending(true)
     setStatus('Sending…')
     try {
@@ -45,13 +48,16 @@ export default function ContactFooter() {
       })
       const result = await response.json().catch(() => ({}))
       if (!response.ok) {
+        setSent(false)
         setStatus(result.error || 'The note could not be sent. Please try again.')
         return
       }
       form.reset()
       setMissing('')
-      setStatus('Sent. Liana will reply to the email you entered.')
+      setSent(true)
+      setStatus("Sent! We'll get back to you soon!")
     } catch {
+      setSent(false)
       setStatus('The note could not be sent. Please try again.')
     } finally {
       setSending(false)
@@ -66,7 +72,7 @@ export default function ContactFooter() {
           <p>A date, a place, an idea.</p>
         </div>
         <div className="footer__letter">
-          <form className="inquiry" noValidate onSubmit={sendInquiry} onInput={() => { setMissing(''); setStatus('') }}>
+          <form className="inquiry" noValidate onSubmit={sendInquiry} onInput={() => { setMissing(''); setSent(false); setStatus('') }}>
             <div className="inquiry__trap" aria-hidden="true">
               <label>Company<input name="company" tabIndex={-1} autoComplete="off" /></label>
             </div>
@@ -82,7 +88,7 @@ export default function ContactFooter() {
             <div className="inquiry__action">
               <button type="submit" disabled={sending}>Send <span className="up-right" aria-hidden="true">{'\u2197\uFE0E'}</span></button>
             </div>
-            <p className="inquiry__status" role="status">{status}</p>
+            <p className={'inquiry__status' + (sent ? ' is-sent' : '')} role="status">{status}</p>
           </form>
         </div>
       </div>
