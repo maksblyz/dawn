@@ -142,7 +142,10 @@ html { scroll-behavior: smooth; }
 .footer__soon { font-style: normal; }
 
 .footer__letter { padding-top: .4rem; }
-.inquiry { font: 400 1.1rem/1.5 'IM Fell English', Georgia, serif; }
+.inquiry { position: relative; font: 400 1.1rem/1.5 'IM Fell English', Georgia, serif; }
+.inquiry__trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.inquiry__status { min-height: 1.4em; margin: .2rem 0 0; font-size: .95rem; }
+.inquiry button:disabled { cursor: default; opacity: .55; }
 .inquiry__pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1.8rem; }
 .inquiry label { display: block; margin-bottom: 1.7rem; }
 .inquiry label > span { font-size: .85rem; opacity: .8; }
@@ -150,6 +153,8 @@ html { scroll-behavior: smooth; }
 .inquiry textarea { resize: vertical; min-height: 7rem; }
 .inquiry textarea::placeholder { color: #4b382d99; }
 .inquiry input:focus, .inquiry textarea:focus { outline: none; border-bottom-color: var(--opening-ink); box-shadow: 0 1px 0 var(--opening-ink); }
+.inquiry input.is-missing, .inquiry textarea.is-missing { border-bottom-color: var(--opening-ink); }
+.inquiry__status { color: var(--opening-ink); }
 .inquiry button, .inquiry__delivery button { cursor: pointer; padding: .5rem 0; border: 0; background: transparent; color: inherit; font: 400 1.2rem/1.4 'IM Fell English', Georgia, serif; text-underline-offset: 5px; }
 .inquiry button:hover, .inquiry__delivery button:hover { text-decoration: underline; }
 .footer button:focus-visible, .inquiry__result:focus-visible, .inquiry__result textarea:focus-visible { outline: 1px solid currentColor; outline-offset: 5px; }

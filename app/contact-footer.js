@@ -1,41 +1,60 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 
-// Add the business email here when it is ready.
-const contactEmail = ''
+const contactEmail = 'contact@seeyouatdawn.com'
 const instagram = 'https://www.instagram.com/cafedawn/'
 
 export default function ContactFooter() {
-  const [draft, setDraft] = useState('')
   const [status, setStatus] = useState('')
-  const draftRef = useRef(null)
-  const resultRef = useRef(null)
+  const [sending, setSending] = useState(false)
+  const [missing, setMissing] = useState('')
 
-  function prepareInquiry(event) {
-    event.preventDefault()
-    const data = new FormData(event.currentTarget)
-    const text = [
-      'Hi Liana,', '',
-      String(data.get('details')).trim(), '',
-      'Name: ' + String(data.get('name')).trim(),
-      'Reply to: ' + String(data.get('email')).trim(),
-      'Event date: ' + (data.get('date') || 'Still deciding'),
-      'Location: ' + (String(data.get('location')).trim() || 'Still deciding'),
-    ].join('\n')
-    setDraft(text)
-    setStatus('')
-    requestAnimationFrame(() => resultRef.current?.focus())
+  function miss(form, field, message) {
+    setMissing(field)
+    setStatus(message)
+    requestAnimationFrame(() => form.elements[field]?.focus())
   }
 
-  async function copyInquiry() {
+  async function sendInquiry(event) {
+    event.preventDefault()
+    const form = event.currentTarget
+    const data = new FormData(form)
+    const name = String(data.get('name') || '').trim()
+    const email = String(data.get('email') || '').trim()
+    const details = String(data.get('details') || '').trim()
+    if (!name) return miss(form, 'name', 'Add your name.')
+    if (!email) return miss(form, 'email', 'Add your email.')
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return miss(form, 'email', 'That email does not look right.')
+    if (!details) return miss(form, 'details', 'Tell us a little about the occasion.')
+    setMissing('')
+    setSending(true)
+    setStatus('Sending…')
     try {
-      await navigator.clipboard.writeText(draft)
-      setStatus('Copied. Send your note to @cafedawn on Instagram.')
+      const response = await fetch('/api/inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: data.get('name'),
+          email: data.get('email'),
+          date: data.get('date'),
+          location: data.get('location'),
+          details: data.get('details'),
+          company: data.get('company'),
+        }),
+      })
+      const result = await response.json().catch(() => ({}))
+      if (!response.ok) {
+        setStatus(result.error || 'The note could not be sent. Please try again.')
+        return
+      }
+      form.reset()
+      setMissing('')
+      setStatus('Sent. Liana will reply to the email you entered.')
     } catch {
-      draftRef.current?.focus()
-      draftRef.current?.select()
-      setStatus('Select and copy the note below, then send it to @cafedawn on Instagram.')
+      setStatus('The note could not be sent. Please try again.')
+    } finally {
+      setSending(false)
     }
   }
 
@@ -44,27 +63,27 @@ export default function ContactFooter() {
       <div className="footer__layout">
         <div className="footer__intro">
           <h2 id="contact-title">Let’s get together.</h2>
-          <p>A date, a place, an idea.<br />Tell Liana what you have in mind.</p>
+          <p>A date, a place, an idea.</p>
         </div>
         <div className="footer__letter">
-          <form className="inquiry" onSubmit={prepareInquiry} onChange={() => { setDraft(''); setStatus('') }}>
+          <form className="inquiry" noValidate onSubmit={sendInquiry} onInput={() => { setMissing(''); setStatus('') }}>
+            <div className="inquiry__trap" aria-hidden="true">
+              <label>Company<input name="company" tabIndex={-1} autoComplete="off" /></label>
+            </div>
             <div className="inquiry__pair">
-              <label>Your name<input name="name" autoComplete="name" required maxLength={100} /></label>
-              <label>Your email<input name="email" type="email" autoComplete="email" required maxLength={254} /></label>
+              <label>Your name<input name="name" autoComplete="name" maxLength={100} aria-invalid={missing === 'name'} className={missing === 'name' ? 'is-missing' : undefined} /></label>
+              <label>Your email<input name="email" type="email" autoComplete="email" maxLength={254} aria-invalid={missing === 'email'} className={missing === 'email' ? 'is-missing' : undefined} /></label>
             </div>
             <div className="inquiry__pair">
               <label>When <span>(if you know)</span><input name="date" type="date" /></label>
               <label>Where <span>(if you know)</span><input name="location" maxLength={200} /></label>
             </div>
-            <label>A little about the occasion<textarea name="details" rows={4} required maxLength={3000} placeholder="The occasion, how many people, anything you’d like us to know…" /></label>
-            <div className="inquiry__action"><button type="submit">Send <span className="up-right" aria-hidden="true">{'\u2197\uFE0E'}</span></button></div>
+            <label>A little about the occasion<textarea name="details" rows={4} maxLength={3000} placeholder="The occasion, how many people, anything you’d like us to know…" aria-invalid={missing === 'details'} className={missing === 'details' ? 'is-missing' : undefined} /></label>
+            <div className="inquiry__action">
+              <button type="submit" disabled={sending}>Send <span className="up-right" aria-hidden="true">{'\u2197\uFE0E'}</span></button>
+            </div>
+            <p className="inquiry__status" role="status">{status}</p>
           </form>
-          {draft && <div className="inquiry__result" ref={resultRef} tabIndex={-1} aria-label="Your prepared inquiry">
-            <p>Your note is ready. {contactEmail ? 'Open your email app to send it.' : 'Copy it, then send it to @cafedawn.'}</p>
-            <textarea ref={draftRef} readOnly value={draft} rows={7} aria-label="Prepared inquiry" />
-            <div className="inquiry__delivery">{contactEmail ? <a href={'mailto:' + contactEmail + '?subject=' + encodeURIComponent('Café Dawn event inquiry') + '&body=' + encodeURIComponent(draft)}>Open email <span className="up-right" aria-hidden="true">{'\u2197\uFE0E'}</span></a> : <><button type="button" onClick={copyInquiry}>Copy note</button><a href={instagram} target="_blank" rel="noreferrer">Open Instagram <span className="up-right" aria-hidden="true">{'\u2197\uFE0E'}</span><span className="sr-only"> (opens in a new tab)</span></a></>}</div>
-            <p role="status">{status}</p>
-          </div>}
         </div>
       </div>
       <div className="footer__bottom">

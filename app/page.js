@@ -99,8 +99,8 @@ export default function Home() {
     <section className="cart-story" aria-labelledby="cart-title">
       <div className="story-copy cart-story__copy">
         <h2 id="cart-title">Good coffee brings<br />people together.</h2>
-        <p>That’s the idea behind our cart. A familiar ritual, a reason to stop for a moment, and something to share.</p>
-        <p>From events to collaborations, we bring the coffee. You bring the company.</p>
+        <p>Nothing brings people together like a good coffee. I really believe that, and it’s the whole reason this cart exists.</p>
+        <p>Weddings, birthdays, office mornings, pop-ups with friends. If there’s a crowd that could use a coffee, I’d love to come.</p>
         <a href="https://www.instagram.com/cafedawn/" target="_blank" rel="noreferrer">Let’s plan something <span className="up-right" aria-hidden="true">{'\u2197\uFE0E'}</span><span className="sr-only"> on Instagram (opens in a new tab)</span></a>
       </div>
       <FramedPhoto className="cart-story__photo" src="/images/cart.jpg" alt="The wooden Café Dawn coffee cart set up outdoors with a red espresso machine" width={1400} height={933} />
