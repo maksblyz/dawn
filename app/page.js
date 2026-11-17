@@ -78,9 +78,12 @@ export default function Home() {
     <section className="owner-story" aria-label="A note from Liana">
       <div className="owner-story__photobooth">
         <img className="photobooth-strip photobooth-strip--first" src="/images/liana-photobooth-1-three.jpg" alt="Photobooth strip of Liana raising a coffee cup, taking a sip, and smiling" width="390" height="1465" loading="lazy" />
-        <img className="photobooth-strip photobooth-strip--second" src="/images/liana-photobooth-2-three.jpg" alt="A second photobooth strip of Liana posing with her coffee" width="343" height="1350" loading="lazy" />
+        <img className="photobooth-strip photobooth-strip--second" src="/images/liana-photobooth-alternate.jpg" alt="Photobooth portraits of Liana, including her holding and sipping coffee" width="440" height="1764" loading="lazy" />
       </div>
-      <p className="owner-story__note">I’m Liana. I love art and coffee, but most of all, I love people. Café Dawn is my way of bringing those things together. I’d love to be there for the days that mean the most to you.</p>
+      <div className="owner-story__note">
+        <p>I believe coffee has a way of making every gathering and event a little more special. Sharing what I love with the people I love is what brought cafe Dawn to life.</p>
+        <p>Let us bring this same vision to your space. Weddings, private celebrations, corporate gatherings, pop ups and everything in between.<br />We’d love to be there.</p>
+      </div>
     </section>
     <section className="fabric" aria-label="Café Dawn catering and gatherings">
       <div className="fabric__cloth" aria-hidden="true" />

@@ -81,8 +81,8 @@ export default function ContactFooter() {
               <label>Your email<input name="email" type="email" autoComplete="email" maxLength={254} aria-invalid={missing === 'email'} className={missing === 'email' ? 'is-missing' : undefined} /></label>
             </div>
             <div className="inquiry__pair">
-              <label>When <span>(if you know)</span><input name="date" type="date" /></label>
-              <label>Where <span>(if you know)</span><input name="location" maxLength={200} /></label>
+              <label>When<input name="date" type="date" /></label>
+              <label>Where<input name="location" maxLength={200} /></label>
             </div>
             <label>A little about the occasion<textarea name="details" rows={4} maxLength={3000} placeholder="The occasion, how many people, anything you’d like us to know…" aria-invalid={missing === 'details'} className={missing === 'details' ? 'is-missing' : undefined} /></label>
             <div className="inquiry__action">

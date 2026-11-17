@@ -209,3 +209,6 @@ html { scroll-behavior: smooth; }
 @media (max-width: 700px) { .patchwork__services { width: 80%; min-height: 12rem; } .patchwork__services ul { font-size: 1.1rem; } }
 
 .patchwork__services li::before { content: "– "; }
+
+.owner-story__note p { margin: 0 0 1.2em; }
+.owner-story__note p:last-child { margin-bottom: 0; }
