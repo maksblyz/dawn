@@ -80,10 +80,7 @@ export default function Home() {
         <img className="photobooth-strip photobooth-strip--first" src="/images/liana-photobooth-1-three.jpg" alt="Photobooth strip of Liana raising a coffee cup, taking a sip, and smiling" width="390" height="1465" loading="lazy" />
         <img className="photobooth-strip photobooth-strip--second" src="/images/liana-photobooth-alternate.jpg" alt="Photobooth portraits of Liana, including her holding and sipping coffee" width="440" height="1764" loading="lazy" />
       </div>
-      <div className="owner-story__note">
-        <p>I believe coffee has a way of making every gathering and event a little more special. Sharing what I love with the people I love is what brought cafe Dawn to life.</p>
-        <p>Let us bring this same vision to your space. Weddings, private celebrations, corporate gatherings, pop ups and everything in between.<br />We’d love to be there.</p>
-      </div>
+      <p className="owner-story__note">I’m Liana. I love art and coffee, but most of all, I love people. Café Dawn is my way of bringing those things together. I’d love to be there for the days that mean the most to you.</p>
     </section>
     <section className="fabric" aria-label="Café Dawn catering and gatherings">
       <div className="fabric__cloth" aria-hidden="true" />
@@ -102,8 +99,8 @@ export default function Home() {
     <section className="cart-story" aria-labelledby="cart-title">
       <div className="story-copy cart-story__copy">
         <h2 id="cart-title">Good coffee brings<br />people together.</h2>
-        <p>Nothing brings people together like a good coffee. I really believe that, and it’s the whole reason this cart exists.</p>
-        <p>Weddings, birthdays, office mornings, pop-ups with friends. If there’s a crowd that could use a coffee, I’d love to come.</p>
+        <p>I believe coffee has a way of making every gathering and event a little more special. Sharing what I love with the people I love is what brought cafe Dawn to life.</p>
+        <p>Let us bring this same vision to your space. Weddings, private celebrations, corporate gatherings, pop ups and everything in between.<br />We’d love to be there.</p>
         <a href="https://www.instagram.com/cafedawn/" target="_blank" rel="noreferrer">Let’s plan something <span className="up-right" aria-hidden="true">{'\u2197\uFE0E'}</span><span className="sr-only"> on Instagram (opens in a new tab)</span></a>
       </div>
       <FramedPhoto className="cart-story__photo" src="/images/cart.jpg" alt="The wooden Café Dawn coffee cart set up outdoors with a red espresso machine" width={1400} height={933} />
